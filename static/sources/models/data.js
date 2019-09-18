@@ -81,7 +81,7 @@ export const option3 = {
     grid: {x: 60, y: 60, x2: 50, y2: 40},
     tooltip: {trigger: "axis"},
     xAxis: {name: "MW", boundaryGap: false, z: 3, splitLine: {show: false}, scale: 1},
-    yAxis: {name: "", nameGap: 8, z: 3, splitLine: {show: false}, show: false},
+    yAxis: {name: "", nameGap: 8, z: 3, splitLine: {show: false}, show: true},
     series: [
         {
             name: "分区概率密度",
@@ -96,7 +96,7 @@ export const option4 = {
     grid: {x: 60, y: 80, x2: 50, y2: 40},
     tooltip: {trigger: "axis"},
     xAxis: {name: "MW", boundaryGap: false, z: 3, splitLine: {show: false}, scale: 1},
-    yAxis: {name: "", nameGap: 8, z: 3, splitLine: {show: false}, show: false},
+    yAxis: {name: "", nameGap: 8, z: 3, splitLine: {show: false}, show: true},
     series: [
         {
             name: "场站概率密度",
@@ -111,7 +111,7 @@ export const option13 = {
     grid: {x: 60, y: 60, x2: 50, y2: 40},
     tooltip: {trigger: "axis"},
     xAxis: {name: "MW", boundaryGap: false, z: 3, splitLine: {show: false}, scale: 1},
-    yAxis: {name: "", nameGap: 8, z: 3, splitLine: {show: false}, show: false},
+    yAxis: {name: "", nameGap: 8, z: 3, splitLine: {show: false}, show: true},
     series: [
         {
             name: "分区分布函数",
@@ -126,7 +126,7 @@ export const option14 = {
     grid: {x: 60, y: 80, x2: 50, y2: 40},
     tooltip: {trigger: "axis"},
     xAxis: {name: "MW", boundaryGap: false, z: 3, splitLine: {show: false}, scale: 1},
-    yAxis: {name: "", nameGap: 8, z: 3, splitLine: {show: false}, show: false},
+    yAxis: {name: "", nameGap: 8, z: 3, splitLine: {show: false}, show: true},
     series: [
         {
             name: "场站分布函数",
