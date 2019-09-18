@@ -26,12 +26,15 @@ class XiangGuan(RequestHandler):
         if _type == 'table':
             data = e_file.get_table('rne_cor_idx')
             data = [] if not data else data[0]
-            res_data = {'cor_cof': '', 'cor_peak': '', 'cor_val': '', 'cor_day': ''}
+            res_data = {'cor_cof': '', 'cor_peak': '', 'cor_val': '', 'cor_day': '', 'maxRatio': '', 'minRatio': '', 'varRatio': ''}
             if data:
                 res_data['cor_cof'] = data[0]
                 res_data['cor_peak'] = data[1]
                 res_data['cor_val'] = data[2]
                 res_data['cor_day'] = data[3]
+                res_data['maxRatio'] = data[4]
+                res_data['minRatio'] = data[5]
+                res_data['varRatio'] = data[6]
 
         # 分区
         if _type == 'areaA' or _type == 'areaB':

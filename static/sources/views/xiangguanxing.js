@@ -79,24 +79,25 @@ export default class XiangGuanXing extends JetView {
                                     ]
                                 },
                                 {
+                                    view: 'datatable', yCount: 1, css: 'table', borderless: 1, id: 'cor:table',
+                                    columns: [
+                                        {id: '1', header: '相关系数', fillspace: 1},
+                                        {id: '2', header: '峰荷出力互补度', fillspace: 1},
+                                        {id: '3', header: '谷荷出力互补度', fillspace: 1},
+                                        {id: '4', header: '日出力互补度', fillspace: 1},
+                                        {id: '5', header: '最大出力比', fillspace: 1},
+                                        {id: '6', header: '最小出力比', fillspace: 1},
+                                        {id: '7', header: '出力波动比', fillspace: 1}
+                                    ],
+                                    data: [
+                                        {1: '', 2: '', 3: '', 4: '', 5: '', 6: '', 7: ''}
+                                    ]
+                                },
+                                {
                                     cols: [
                                         {id: 'chart1', css: 'panel'},
                                         {width: 3},
                                         {id: 'chart2', css: 'panel'}
-                                    ]
-                                },
-                                {height: 3},
-                                {
-                                    view: 'datatable', header: false, yCount: 4, css: 'table', borderless: 1,
-                                    columns: [
-                                        {id: 'name', header: '', width: 150},
-                                        {id: 'value', header: '', fillspace: 1}
-                                    ], id: 'cor:table',
-                                    data: [
-                                        {name: '相关系数', value: ''},
-                                        {name: '峰荷出力互补度', value: ''},
-                                        {name: '谷荷出力互补度', value: ''},
-                                        {name: '日出力互补度', value: ''}
                                     ]
                                 }
                             ]
@@ -160,12 +161,10 @@ export default class XiangGuanXing extends JetView {
         });
         webix.ajax().post('/xiangguan', {type: 'table'}).then(function (r) {
             let res = r.json();
-            let data = [
-                {name: '相关系数', value: res.cor_cof},
-                {name: '峰荷出力互补度', value: res.cor_peak},
-                {name: '谷荷出力互补度', value: res.cor_val},
-                {name: '日出力互补度', value: res.cor_day}
-            ];
+            let data = [{
+                1: res.cor_cof, 2: res.cor_peak, 3: res.cor_val, 4: res.cor_day,
+                5: res.maxRatio, 6: res.minRatio, 7: res.varRatio
+            }];
             $$('cor:table').clearAll();
             $$('cor:table').define('data', data);
         });

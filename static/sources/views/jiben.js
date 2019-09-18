@@ -6,11 +6,11 @@
  @Description: 基本统计信息
  */
 import {JetView} from "webix-jet";
-import {getArea, getStatisticsPc, getStatisticsArea, convertData, option3, option4} from "../models/data";
+import {getArea, getStatisticsPc, getStatisticsArea, convertData, option3, option4, option13, option14} from "../models/data";
 import echarts from "echarts";
 import "models/walden.js";
 
-let e1, e2;
+let e1, e2, e3, e4;
 
 export default class JiBen extends JetView {
     config() {
@@ -42,6 +42,7 @@ export default class JiBen extends JetView {
                                             getStatisticsArea(id).then(function (r) {
                                                 let res = r.json();
                                                 let data = [];
+                                                let data1 = []
                                                 let tData = [
                                                     {
                                                         1: convertData(res.area.day_max, 'WM', 100),
@@ -59,7 +60,11 @@ export default class JiBen extends JetView {
                                                 for (let i = 0; i < res.area.x.length; i++) {
                                                     data.push([(res.area.x[i]*100).toFixed(3), res.area.y[i]]);
                                                 }
+                                                for (let i = 0; i < res.area.x1.length; i++) {
+                                                    data1.push([(res.area.x1[i]*100).toFixed(3), res.area.y1[i]]);
+                                                }
                                                 e1.setOption({series: [{data: data}]});
+                                                e2.setOption({series: [{data: data1}]});
                                             });
                                         }
                                     }
@@ -72,6 +77,7 @@ export default class JiBen extends JetView {
                                                 let res = r.json();
                                                 let name = $$('dev:list').getItem(id)['value'];
                                                 let data = [];
+                                                let data1 = [];
                                                 let tData = [
                                                     {
                                                         1: convertData(res.pc.day_max, 'WM', 100),
@@ -89,7 +95,11 @@ export default class JiBen extends JetView {
                                                 for (let i = 0; i < res.pc.x.length; i++) {
                                                     data.push([(res.pc.x[i]*100).toFixed(3), res.pc.y[i]]);
                                                 }
-                                                e2.setOption({title: {subtext: name},series: [{data: data}]});
+                                                for (let i = 0; i < res.pc.x1.length; i++) {
+                                                    data1.push([(res.pc.x1[i]*100).toFixed(3), res.pc.y1[i]]);
+                                                }
+                                                e3.setOption({title: {subtext: name},series: [{data: data}]});
+                                                e4.setOption({title: {subtext: name},series: [{data: data1}]});
                                             });
                                         }
                                     }
@@ -130,7 +140,13 @@ export default class JiBen extends JetView {
                                     ],
                                     data: [{1:'',2:'',3:'',4:'',5:'',6:'',7:'',8:''}]
                                 },
-                                {id: 'chart1', css: 'panel'},
+                                {
+                                    cols: [
+                                        {id: 'chart1', css: 'panel'},
+                                        {width: 1},
+                                        {id: 'chart2', css: 'panel'}
+                                    ]
+                                },
                                 {height: 2},
                                 {
                                     view: 'datatable', yCount: 1, css: 'table',
@@ -147,7 +163,13 @@ export default class JiBen extends JetView {
                                     ],
                                     data: [{1:'',2:'',3:'',4:'',5:'',6:'',7:'',8:''}]
                                 },
-                                {id: 'chart2', css: 'panel'}
+                                {
+                                    cols: [
+                                        {id: 'chart3', css: 'panel'},
+                                        {width: 1},
+                                        {id: 'chart4', css: 'panel'}
+                                    ]
+                                }
                             ]
                         },
                         {width: 3}
@@ -166,14 +188,19 @@ export default class JiBen extends JetView {
         });
         setTimeout(function () {
             e1 = echarts.init($$('chart1').getNode(), 'walden');
-            e1.setOption(option3);
             e2 = echarts.init($$('chart2').getNode(), 'walden');
-            e2.setOption(option4);
+            e1.setOption(option3);
+            e2.setOption(option13);
+            e3 = echarts.init($$('chart3').getNode(), 'walden');
+            e4 = echarts.init($$('chart4').getNode(), 'walden');
+            e3.setOption(option4);
+            e4.setOption(option14);
         },0);
 
         getStatisticsArea('0').then(function (r) {
             let res = r.json();
             let data = [];
+            let data1 = [];
             let tData = [
                 {
                     1: convertData(res.area.day_max, 'WM', 100),
@@ -190,7 +217,11 @@ export default class JiBen extends JetView {
             for (let i = 0; i < res.area.x.length; i++) {
                 data.push([(res.area.x[i]*100).toFixed(3), res.area.y[i]]);
             }
+            for (let i = 0; i < res.area.x1.length; i++) {
+                data1.push([(res.area.x1[i]*100).toFixed(3), res.area.y1[i]]);
+            }
             e1.setOption({series: [{data: data}]});
+            e2.setOption({series: [{data: data1}]});
         });
     }
 }

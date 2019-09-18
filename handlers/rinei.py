@@ -56,39 +56,64 @@ class RiNei(RequestHandler):
                 res_data['max_gen_rate'] = data[1]
                 res_data['blo_power'] = data[2]
             # 图形
-            data = e_file.get_table('rne_day_ass', idx=_id, type='pmax')  # 最大值
+            data = e_file.get_table('rne_day_ass', idx=_id, type='pmax')  # 评估上界
             data = [] if not data else data[0][3:]
             res_data['pmax'] = data
 
-            data = e_file.get_table('rne_day_ass', idx=_id, type='pup')  # 评估值
+            data = e_file.get_table('rne_day_ass', idx=_id, type='pmin')  # 评估下界
+            data = [] if not data else data[0][3:]
+            res_data['pmin'] = data
+
+            data = e_file.get_table('rne_day_ass', idx=_id, type='pup')  # 置信上界
             data = [] if not data else data[0][3:]
             res_data['pup'] = data
+
+            data = e_file.get_table('rne_day_ass', idx=_id, type='pdn')  # 置信下界
+            data = [] if not data else data[0][3:]
+            res_data['pdn'] = data
         # 断面
         if _type == 'tie':
             res_data['tie_blo_rate'] = ''
             res_data['tie_power_sur'] = ''
             # 表格
             data = e_file.get_table('tie_day_assidx', name=_id)
-            data = [] if not data else data[0][1:]
+            data = [] if not data else data[0][2:]
             if data:
                 res_data['tie_blo_rate'] = data[0]
                 res_data['tie_power_sur'] = data[1]
             # 图形
-            data = e_file.get_table('tie_day_ass', name=_id, type='pmax')   # 最大值
-            data = [] if not data else data[0][2:]
+            data = e_file.get_table('tie_day_ass', name=_id, type='pmax')   # 评估上界
+            data = [] if not data else data[0][3:]
             res_data['pmax'] = data
 
-            data = e_file.get_table('tie_day_ass', name=_id, type='pup')  # 评估值
-            data = [] if not data else data[0][2:]
-            res_data['pup'] = data
+            data = e_file.get_table('tie_day_ass', name=_id, type='pmin')  # 评估下界
+            data = [] if not data else data[0][3:]
+            res_data['pmin'] = data
+
+            data = e_file.get_table('tie_day_ass', name=_id, type='pub')  # 置信上界
+            data = [] if not data else data[0][3:]
+            res_data['pub'] = data
+
+            data = e_file.get_table('tie_day_ass', name=_id, type='plb')  # 置信下界
+            data = [] if not data else data[0][3:]
+            res_data['plb'] = data
         # 获取断面
         if _type == 'get-tie':
             res_data = []
             data = e_file.get_table('tie_day_ass')
             tie_name = set()
             for n in data:
-                tie_name.add(n[0])
+                tie_name.add(n[1])
             for n in tie_name:
                 res_data.append({'value': n})
+        # 获取场站
+        if _type == 'get-pc':
+            res_data = []
+            temp = {}
+            data = e_file.get_table('rne_day_ass')
+            for n in data:
+                temp[n[0]] = n[1]
+            for k in temp:
+                res_data.append({'id': k, 'value': temp[k]})
 
         self.write(json.dumps(res_data))

@@ -30,7 +30,7 @@ export const convertData = function (d, c, s) {
     if (isNaN(num))
         return '';
     else
-        return num * scale + suffix;
+        return (num * scale).toFixed(3) + suffix;
 };
 export const option1 = {
     title: {text: "分区功率曲线", subtext: ''},
@@ -77,31 +77,61 @@ export const option2 = {
     ]
 };
 export const option3 = {
-    title: {text: "分区概率"},
+    title: {text: "分区概率密度"},
     grid: {x: 60, y: 60, x2: 50, y2: 40},
     tooltip: {trigger: "axis"},
-    xAxis: {name: "MW", boundaryGap: false, z: 3, splitLine: {show: false}},
+    xAxis: {name: "MW", boundaryGap: false, z: 3, splitLine: {show: false}, scale: 1},
     yAxis: {name: "", nameGap: 8, z: 3, splitLine: {show: false}, show: false},
     series: [
         {
-            name: "分区概率",
-            type: "scatter",
-            symbolSize: 10,
+            name: "分区概率密度",
+            type: "line",
+            symbolSize: 1,
             data: []
         }
     ]
 };
 export const option4 = {
-    title: {text: "场站概率", subtext: ''},
+    title: {text: "场站概率密度", subtext: ''},
     grid: {x: 60, y: 80, x2: 50, y2: 40},
     tooltip: {trigger: "axis"},
-    xAxis: {name: "MW", boundaryGap: false, z: 3, splitLine: {show: false}},
+    xAxis: {name: "MW", boundaryGap: false, z: 3, splitLine: {show: false}, scale: 1},
     yAxis: {name: "", nameGap: 8, z: 3, splitLine: {show: false}, show: false},
     series: [
         {
-            name: "场站概率",
-            type: "scatter",
-            symbolSize: 10,
+            name: "场站概率密度",
+            type: "line",
+            symbolSize: 1,
+            data: []
+        }
+    ]
+};
+export const option13 = {
+    title: {text: "分区分布函数"},
+    grid: {x: 60, y: 60, x2: 50, y2: 40},
+    tooltip: {trigger: "axis"},
+    xAxis: {name: "MW", boundaryGap: false, z: 3, splitLine: {show: false}, scale: 1},
+    yAxis: {name: "", nameGap: 8, z: 3, splitLine: {show: false}, show: false},
+    series: [
+        {
+            name: "分区分布函数",
+            type: "line",
+            symbolSize: 1,
+            data: []
+        }
+    ]
+};
+export const option14 = {
+    title: {text: "场站分布函数", subtext: ''},
+    grid: {x: 60, y: 80, x2: 50, y2: 40},
+    tooltip: {trigger: "axis"},
+    xAxis: {name: "MW", boundaryGap: false, z: 3, splitLine: {show: false}, scale: 1},
+    yAxis: {name: "", nameGap: 8, z: 3, splitLine: {show: false}, show: false},
+    series: [
+        {
+            name: "场站分布函数",
+            type: "line",
+            symbolSize: 1,
             data: []
         }
     ]
@@ -161,19 +191,33 @@ export const option7 = {
 export const option8 = {
     title: {text: "场站功率评估曲线", subtext: ''},
     grid: {x: 60, y: 80, x2: 50, y2: 40},
-    legend: {top: 20, data: ["最大值", "评估值"]},
+    legend: {top: 20, data: ["评估上界", "评估下界", "置信上界", "置信下界"]},
     tooltip: {trigger: "axis"},
-    xAxis: {name: "时间", data: getXCoording(), boundaryGap: false, splitLine: {interval: 3, show: false}, z: 3},
-    yAxis: [{name: "兆瓦", nameGap: 8, z: 3}, {}],
+    xAxis: {
+        name: "时间", data: getXCoording(),
+        boundaryGap: false, splitLine: {interval: 3, show: false}, z: 3},
+    yAxis: [{name: "兆瓦", nameGap: 8, z: 3, scale: 1}, {}],
     series: [
         {
-            name: "最大值",
+            name: "评估上界",
             type: "line",
             lineStyle: {width: 3},
             data: []
         },
         {
-            name: "评估值",
+            name: "评估下界",
+            type: "line",
+            lineStyle: {width: 3},
+            data: []
+        },
+        {
+            name: "置信上界",
+            type: "line",
+            lineStyle: {width: 3},
+            data: []
+        },
+        {
+            name: "置信下界",
             type: "line",
             lineStyle: {width: 3},
             data: []
@@ -183,19 +227,32 @@ export const option8 = {
 export const option9 = {
     title: {text: "断面功率曲线", subtext: ''},
     grid: {x: 60, y: 80, x2: 50, y2: 40},
-    legend: {top: 20, data: ["最大值", "评估值"]},
+    legend: {top: 20, data: ["评估上界", "评估下界", "置信上界", "置信下界"]},
     tooltip: {trigger: "axis"},
-    xAxis: {name: "时间", data: getXCoording(), boundaryGap: false, splitLine: {interval: 3, show: false}, z: 3},
-    yAxis: [{name: "兆瓦", nameGap: 8, z: 3}, {}],
+    xAxis: {name: "时间", data: getXCoording(),
+        boundaryGap: false, splitLine: {interval: 3, show: false}, z: 3},
+    yAxis: [{name: "兆瓦", nameGap: 8, z: 3, scale: 1}, {}],
     series: [
         {
-            name: "最大值",
+            name: "评估上界",
             type: "line",
             lineStyle: {width: 3},
             data: []
         },
         {
-            name: "评估值",
+            name: "评估下界",
+            type: "line",
+            lineStyle: {width: 3},
+            data: []
+        },
+        {
+            name: "置信上界",
+            type: "line",
+            lineStyle: {width: 3},
+            data: []
+        },
+        {
+            name: "置信下界",
             type: "line",
             lineStyle: {width: 3},
             data: []
@@ -236,28 +293,34 @@ export const option10 = {
 export const option11 = {
     title: {text: "场站功率评估曲线", subtext: ''},
     grid: {x: 60, y: 80, x2: 50, y2: 40},
-    legend: {top: 20, data: ["最大值", "评估值", "最小值"]},
+    legend: {top: 20, data: ["评估上界", "评估下界", "置信上界", "置信下界"]},
     tooltip: {trigger: "axis"},
     xAxis: {
-        name: "时间", data: [1,2,3,4,5,6,7,8,9,10,11,12],
+        name: "时间", data: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],
         boundaryGap: false, splitLine: {interval: 3, show: false}, z: 3
     },
     yAxis: [{name: "兆瓦", nameGap: 8, z: 3}, {}],
     series: [
         {
-            name: "最大值",
+            name: "评估上界",
             type: "line",
             lineStyle: {width: 3},
             data: []
         },
         {
-            name: "评估值",
+            name: "评估下界",
             type: "line",
             lineStyle: {width: 3},
             data: []
         },
         {
-            name: "最小值",
+            name: "置信上界",
+            type: "line",
+            lineStyle: {width: 3},
+            data: []
+        },
+        {
+            name: "置信下界",
             type: "line",
             lineStyle: {width: 3},
             data: []
@@ -267,28 +330,34 @@ export const option11 = {
 export const option12 = {
     title: {text: "断面功率曲线", subtext: ''},
     grid: {x: 60, y: 80, x2: 50, y2: 40},
-    legend: {top: 20, data: ["最大值", "评估值", "最小值"]},
+    legend: {top: 20, data: ["评估上界", "评估下界", "置信上界", "置信下界"]},
     tooltip: {trigger: "axis"},
     xAxis: {
-        name: "时间", data: [1,2,3,4,5,6,7,8,9,10,11,12],
+        name: "时间", data: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],
         boundaryGap: false, splitLine: {interval: 3, show: false}, z: 3
     },
-    yAxis: [{name: "兆瓦", nameGap: 8, z: 3}, {}],
+    yAxis: [{name: "兆瓦", nameGap: 8, z: 3, scale: 1}, {}],
     series: [
         {
-            name: "最大值",
+            name: "评估上界",
             type: "line",
             lineStyle: {width: 3},
             data: []
         },
         {
-            name: "评估值",
+            name: "评估下界",
             type: "line",
             lineStyle: {width: 3},
             data: []
         },
         {
-            name: "最小值",
+            name: "置信上界",
+            type: "line",
+            lineStyle: {width: 3},
+            data: []
+        },
+        {
+            name: "置信下界",
             type: "line",
             lineStyle: {width: 3},
             data: []

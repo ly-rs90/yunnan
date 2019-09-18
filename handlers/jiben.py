@@ -18,6 +18,8 @@ class JiBen(RequestHandler):
             'pc': {
                 'x': [],
                 'y': [],
+                'x1': [],
+                'y1': [],
                 'day_max': '',
                 'day_min': '',
                 'pe_va': '',
@@ -30,6 +32,8 @@ class JiBen(RequestHandler):
             'area': {
                 'x': [],
                 'y': [],
+                'x1': [],
+                'x2': [],
                 'day_max': '',
                 'day_min': '',
                 'pe_va': '',
@@ -69,6 +73,15 @@ class JiBen(RequestHandler):
                 res_data['pc']['mean_flu'] = t[8]
                 res_data['pc']['max_flu'] = t[9]
 
+            # 场站分布函数
+            x = e_file.get_table('rne_cdf', idx=_id, axis='x_axis')
+            x = [] if not x else x[0]
+            y = e_file.get_table('rne_cdf', idx=_id, axis='y_axis')
+            y = [] if not y else y[0]
+
+            res_data['pc']['x1'] = x[3:]
+            res_data['pc']['y1'] = y[3:]
+
         # 分区概率
         if area:
             # x轴
@@ -93,5 +106,15 @@ class JiBen(RequestHandler):
                 res_data['area']['day_var'] = t[6]
                 res_data['area']['mean_flu'] = t[7]
                 res_data['area']['max_flu'] = t[8]
+
+            # 分区分布函数
+            # x轴
+            x = e_file.get_table('rne_area_cdf', subarea=area, axis='x_axis')
+            x = [] if not x else x[0]
+            # y轴
+            y = e_file.get_table('rne_area_cdf', subarea=area, axis='y_axis')
+            y = [] if not y else y[0]
+            res_data['area']['x1'] = x[2:]
+            res_data['area']['y1'] = y[2:]
 
         self.write(json.dumps(res_data))

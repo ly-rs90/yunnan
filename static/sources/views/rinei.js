@@ -24,44 +24,44 @@ export default class RiNei extends JetView {
                             cols: [
                                 {
                                     rows: [
-                                        {
-                                            view: 'combo', css: 'combo combo-opt', value: '0', label: '分区选择',
-                                            options: [
-                                                {id: '0', value: '全网'},
-                                                {id: '1', value: '分区1'},
-                                                {id: '2', value: '分区2'},
-                                                {id: '3', value: '分区3'},
-                                                {id: '4', value: '分区4'}
-                                            ],
-                                            on: {
-                                                onChange: function (id) {
-                                                    getArea(id).then(function (r) {
-                                                        let res = r.json();
-                                                        let devList = $$('dev:list');
-                                                        devList.clearAll();
-                                                        devList.define('data', res['dev']);
-                                                        devList.refresh();
-                                                    });
-                                                    getRiNei('area', id).then(function (r) {
-                                                        let res = r.json();
-                                                        let t1 = $$('area:table');
-                                                        t1.clearAll();
-                                                        t1.define('data', [{
-                                                            1: convertData(res.max_power, 'MW', 100),
-                                                            2: res.max_gen_rate,
-                                                            3: convertData(res.blo_power, 'MW', 100)
-                                                        }]);
-                                                        let d1 = res.pmax.map(function (item) {
-                                                            return item*100;
-                                                        });
-                                                        let d2 = res.pup.map(function (item) {
-                                                            return item*100;
-                                                        });
-                                                        e1.setOption({series: [{data: d1}, {data: d2}]});
-                                                    });
-                                                }
-                                            }
-                                        },
+                                        // {
+                                        //     view: 'combo', css: 'combo combo-opt', value: '0', label: '分区选择',
+                                        //     options: [
+                                        //         {id: '0', value: '全网'},
+                                        //         {id: '1', value: '分区1'},
+                                        //         {id: '2', value: '分区2'},
+                                        //         {id: '3', value: '分区3'},
+                                        //         {id: '4', value: '分区4'}
+                                        //     ],
+                                        //     on: {
+                                        //         onChange: function (id) {
+                                        //             getArea(id).then(function (r) {
+                                        //                 let res = r.json();
+                                        //                 let devList = $$('dev:list');
+                                        //                 devList.clearAll();
+                                        //                 devList.define('data', res['dev']);
+                                        //                 devList.refresh();
+                                        //             });
+                                        //             getRiNei('area', id).then(function (r) {
+                                        //                 let res = r.json();
+                                        //                 let t1 = $$('area:table');
+                                        //                 t1.clearAll();
+                                        //                 t1.define('data', [{
+                                        //                     1: convertData(res.max_power, 'MW', 100),
+                                        //                     2: res.max_gen_rate,
+                                        //                     3: convertData(res.blo_power, 'MW', 100)
+                                        //                 }]);
+                                        //                 let d1 = res.pmax.map(function (item) {
+                                        //                     return item*100;
+                                        //                 });
+                                        //                 let d2 = res.pup.map(function (item) {
+                                        //                     return item*100;
+                                        //                 });
+                                        //                 e1.setOption({series: [{data: d1}, {data: d2}]});
+                                        //             });
+                                        //         }
+                                        //     }
+                                        // },
                                         {
                                             view: 'list', width: 250, css: 'list',
                                             borderless: 1, select: 1, id: 'dev:list',
@@ -80,10 +80,16 @@ export default class RiNei extends JetView {
                                                         let d1 = res.pmax.map(function (item) {
                                                             return (item*100).toFixed(3);
                                                         });
-                                                        let d2 = res.pup.map(function (item) {
+                                                        let d2 = res.pmin.map(function (item) {
                                                             return (item*100).toFixed(3);
                                                         });
-                                                        e2.setOption({title: {subtext: name}, series: [{data: d1}, {data: d2}]});
+                                                        let d3 = res.pup.map(function (item) {
+                                                            return (item*100).toFixed(3);
+                                                        });
+                                                        let d4 = res.pdn.map(function (item) {
+                                                            return (item*100).toFixed(3);
+                                                        });
+                                                        e2.setOption({title: {subtext: name}, series: [{data: d1}, {data: d2}, {data: d3}, {data: d4}]});
                                                     });
                                                 }
                                             }
@@ -146,10 +152,16 @@ export default class RiNei extends JetView {
                                                         let d1 = res.pmax.map(function (item) {
                                                             return (item*100).toFixed(3);
                                                         });
-                                                        let d2 = res.pup.map(function (item) {
+                                                        let d2 = res.pmin.map(function (item) {
                                                             return (item*100).toFixed(3);
                                                         });
-                                                        e3.setOption({title: {subtext: name},series: [{data: d1}, {data: d2}]});
+                                                        let d3 = res.pub.map(function (item) {
+                                                            return (item*100).toFixed(3);
+                                                        });
+                                                        let d4 = res.plb.map(function (item) {
+                                                            return (item*100).toFixed(3);
+                                                        });
+                                                        e3.setOption({title: {subtext: name},series: [{data: d1}, {data: d2}, {data: d3},{data: d4}]});
                                                     });
                                                 }
                                             }
@@ -180,12 +192,18 @@ export default class RiNei extends JetView {
         };
     }
     ready(_$view, _$url) {
-        getArea('0').then(function (r) {
+        // getArea('0').then(function (r) {
+        //     let res = r.json();
+        //     let devList = $$('dev:list');
+        //     devList.define('data', res['dev']);
+        //     devList.refresh();
+        // });
+        getRiNei('get-pc', '').then(function (r) {
             let res = r.json();
             let devList = $$('dev:list');
-            devList.define('data', res['dev']);
+            devList.define('data', res);
             devList.refresh();
-        });
+        })
         setTimeout(function () {
             e1 = echarts.init($$('chart1').getNode(), 'walden');
             e1.setOption(option7);
@@ -194,23 +212,23 @@ export default class RiNei extends JetView {
             e3 = echarts.init($$('chart3').getNode(), 'walden');
             e3.setOption(option9);
         },0);
-        getRiNei('area', '0').then(function (r) {
-            let res = r.json();
-            let t1 = $$('area:table');
-            t1.clearAll();
-            t1.define('data', [{
-                1: convertData(res.max_power, 'MW', 100),
-                2: res.max_gen_rate,
-                3: convertData(res.blo_power, 'MW', 100)
-            }]);
-            let d1 = res.pmax.map(function (item) {
-                return (item*100).toFixed(3);
-            });
-            let d2 = res.pup.map(function (item) {
-                return (item*100).toFixed(3);
-            });
-            e1.setOption({series: [{data: d1}, {data: d2}]});
-        });
+        // getRiNei('area', '0').then(function (r) {
+        //     let res = r.json();
+        //     let t1 = $$('area:table');
+        //     t1.clearAll();
+        //     t1.define('data', [{
+        //         1: convertData(res.max_power, 'MW', 100),
+        //         2: res.max_gen_rate,
+        //         3: convertData(res.blo_power, 'MW', 100)
+        //     }]);
+        //     let d1 = res.pmax.map(function (item) {
+        //         return (item*100).toFixed(3);
+        //     });
+        //     let d2 = res.pup.map(function (item) {
+        //         return (item*100).toFixed(3);
+        //     });
+        //     e1.setOption({series: [{data: d1}, {data: d2}]});
+        // });
         getRiNei('get-tie', '0').then(function (r) {
             let res = r.json();
             $$('tie:list').define('data', res);
